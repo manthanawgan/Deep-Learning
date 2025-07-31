@@ -19,8 +19,17 @@ class LinearRegression(nn.Module):
         return loss
     
 class SGD(nn.Module):
-    def __inti__(self):
-        super().__init__()
-        self.hyperparameter()
+    def __init__(self, params, learning_rate):
+         self.params = list(params)
+         self.learning_rate = learning_rate
 
-    def step(self, ):
+    def step(self):
+        for param in self.params:
+            with torch.no_grad():
+                param -= self.learning_rate * param.grad
+
+    def zero_grad(self):
+        for param in self.params:
+            if param.grad is not None:
+                param.grad.zero_()
+
